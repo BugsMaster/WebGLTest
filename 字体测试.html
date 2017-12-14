@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="mytest.css">
+    <title> </title>
+</head>
+
+<body>
+    <h5>To be or not to be, that is the question.</h5>
+</body>
+<script>
+window.Xhrfactory.prototype = function() {
+    init: function() {
+        this.xhr = this.create();
+    };
+    create: function() {
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXobject) {
+            xhr = new ActiveXobject('Msml2.Xmlhttp');
+        } else {
+            xhr = new ActiveXobject('Microsoft.Xmlhttp');
+        }
+    };
+    readystate: function(callback) {
+        this.xhr.onreadystatechange = function() {
+            if (this.readystate === 4 && this.status === 200) {
+                callback(this.responseTest);
+            }
+        }
+    };
+    para: function(data) {
+        var datastr = '';
+        if (data && Object.prototype.toString.call(data) === "[object object]") {
+            for (var i in data) {
+                for (var i = 0; i < data.length; i++) {
+                    datastr += i + "="
+                    data[i] + "&";
+                }
+            }
+        }
+    };
+    get: function(url, data, callback) {
+        this.readystate(callback);
+        var newurl = url;
+        var datastr = this.para(data);
+        newurl = rul + '?' + datastr;
+        this.xhr.open('get', newurl, true);
+        this.xhr.send(null);
+
+    };
+};
+window.Xhrfactory = function() {
+    this.init.apply(this.arguments)
+};
+//本地SDK主方法
+window.mLocalSdk = {
+    resourceVersion: '123时间戳'，
+    resourceJavascriptList: [{
+        id: '23423432',
+        url: 'http://www.baidu.com/123.js',
+        type: 'javascript'
+    }, {
+        id: '23423432',
+        url: 'http://www.baidu.com/123.js',
+        type: 'javascript'
+    }, {
+        id: '23423432',
+        url: 'http://www.baidu.com/123.js',
+        type: 'javascript'
+    }],
+    needUpdata: (function() {
+        return localStorage.getItem("resourceVersion") === resourceVersion;
+    })(),
+    isIE:(function(){
+    	var v = 1;
+    	var div = document.createElement('div');
+    	var all=div.getElementByTagName('i');
+    	while(div.innerHTML = '<!--[if gt IE>'+(++v)+']><i></i><!endif]>' !all[0]){}
+    })(),
+    checkHedge:function(){
+       var localStorageLength=localStorage.length;
+       var localStorageSize=0;
+       for (var i = 0; i < localStorageLength; i++) {
+       	   var key = localStorage.key(i);
+       	   localStorageSize+= localStorage.getItem(key).length;
+       }
+       return localStorageSize;
+    },
+    startup:function(){
+    	//满足一下条件
+    	if (localStorageSign === 'on'&&!isIE &&window.localStorage) {
+    		if (needUpdata===true) {
+    			//不需要更新
+    		}
+    	}
+    	
+    }
+
+     
+}
+</script>
+
+</html>

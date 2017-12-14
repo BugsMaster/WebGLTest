@@ -1,0 +1,9 @@
+@font-face {
+	font-family:"nucfont";
+    src: url('holyuni.ttf');
+}
+
+h5{
+	font-family: "nucfont";
+	font-size: 20px;
+}

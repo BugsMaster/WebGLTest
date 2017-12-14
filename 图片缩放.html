@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    body {
+        background-color: #000;
+    }
+
+    .canvas {
+        display: block;
+        margin: 0 auto;
+        let foo=123 border: 1px solid #aaa;
+    }
+
+    .range {
+        display: block;
+        margin: 20px auto;
+        width: 800px;
+    }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" class="canvas"></canvas>
+    <input type="range" id="scale_range" class="range" min="0.5" max="3" step="0.01" value="1.0">
+    <canvas id="offCanvas" style="display: none"></canvas>
+</body>
+<script>
+var canvas = document.getElementById("canvas");
+var offCanvas = document.getElementById("offCanvas");
+var scaleRange = document.getElementById("scale_range");
+var context = canvas.getContext("2d");
+var offcontext = offCanvas.getContext("2d");
+var image = new Image();
+var isMouseDown = false;
+var scale_ex;
+window.onload = function() {
+
+    canvas.width = 1152;
+    canvas.height = 768;
+    var scale = scaleRange.value
+    image.src = "丫头.jpg"
+    image.onload = function() {
+
+        offCanvas.width = image.width;
+        offCanvas.height = image.height;
+        offcontext.drawImage(image, 0, 0);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        scale_ex = offCanvas.width / offCanvas.height;
+
+        drawImageByScale(scale);
+        scaleRange.onmousemove = function() {
+            scale = scaleRange.value
+            drawImageByScale(scale)
+        }
+    }
+
+    function drawImageByScale(scale) {
+        var imageWidth = canvas.width * scale;
+        var imageHeight = canvas.height * scale;
+        // var sx = imageWidth/2- canvas.width/2;
+        // var sy = imageHeight/2- canvas.height/2;
+        // //源目标，初始坐标XY，宽度，长度，贴到目标初始位置，终点位置
+        // context.drawImage(image, sx, sy, 1920, 1080,0,0,canvas.width,canvas.height);
+        var dx = canvas.width / 2 - imageWidth / 2;
+        var dy = canvas.height / 2 - imageHeight / 2;
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        context.drawImage(image, dx, dy, imageWidth, imageHeight);
+    }
+
+    function windowToCanvas(x, y) {
+        let bbox = canvas.getBoundingClientRect();
+        return { x: x - bbox.left, y: y - bbox.top }
+    }
+    canvas.onmousedown = function(e) {
+        e.preventDefault();
+        let point = windowToCanvas(e.clientX, e.clientY);
+        isMouseDown = true;
+        drawCanvasWithMagnifier(true, point)
+    }
+    canvas.onmousemove = function(e) {
+        e.preventDefault();
+        if (isMouseDown) {
+            let point = windowToCanvas(e.clientX, e.clientY);
+            drawCanvasWithMagnifier(true, point)
+        }
+    }
+    canvas.onmouseup = function(e) {
+        e.preventDefault();
+        isMouseDown = false;
+        drawCanvasWithMagnifier(false);
+    }
+    canvas.onmousout = function(e) {
+        e.preventDefault();
+        isMouseDown = false;
+        drawCanvasWithMagnifier(false);
+    }
+
+    function drawCanvasWithMagnifier(isShowMagnifier, point) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        if (isShowMagnifier) {
+            drawMagnifier(point)
+        }
+
+        function drawMagnifier(point) {
+            let imageLG_cx = point.x * scale_ex;
+            let imageLG_cy = point.y * scale_ex;
+            let mr = 200;
+
+            let sx = imageLG_cx - mr;
+            let sy = imageLG_cy - mr;
+
+            let dx = point.x - mr;
+            let dy = point.y - mr;
+
+            context.save();
+            context.beginPath();
+            context.arc(point.x, point.y, mr, 0, Math.PI * 2);
+            context.clip();
+
+            context.drawImage(offCanvas, sx, sy, 2 * mr, 2 * mr, dx, dy, 2 * mr, 2 * mr);
+            context.restore();
+
+        }
+    }
+}
+</script>
+
+</html>

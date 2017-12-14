@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    .box {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    canvas {
+        border: 1px solid #000;
+        width: 48%;
+        height: 560px;
+    }
+
+    .btn {
+        text-align: center;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <canvas id="canvas_a"></canvas>
+        <canvas id="canvas_b"></canvas>
+    </div>
+    <div class="btn">
+        <span id="btn">Filter</span>
+    </div>
+</body>
+<script>
+var canvas_a = document.getElementById("canvas_a");
+var context_a = canvas_a.getContext("2d");
+var canvas_b = document.getElementById("canvas_b");
+var context_b = canvas_b.getContext("2d");
+var imageData;
+var btn = document.getElementById("btn");
+var image = new Image();
+
+window.onload = function() {
+    image.src = "丫头.jpg";
+    image.onload = function() {
+        context_a.drawImage(image, 0, 0, canvas_a.width, canvas_a.height);
+    }
+
+    //滤镜
+    // btn.onclick = function() {
+    //     imageData = context_a.getImageData(0, 0, canvas_a.width, canvas_a.height);
+    //     var pixelData = imageData.data;
+    //     for (var i = 0; i < canvas_b.width * canvas_b.height; i++) {
+    //         pixelData[4 * i + 3] = 0;
+    //     }
+    //     context_b.putImageData(imageData, 0, 0, 0, 0, canvas_b.width, canvas_b.height);
+    // } 
+    //灰度滤镜
+    // btn.onclick = function() {
+    //     imageData = context_a.getImageData(0, 0, canvas_a.width, canvas_a.height);
+    //     var pixelData = imageData.data;
+    //     for (let i = 0; i < canvas_b.width * canvas_b.height; i++) {
+    //         let r = pixelData[4 * i + 0];
+    //         let g = pixelData[4 * i + 1];
+    //         let b = pixelData[4 * i + 2];
+    //         let grey = r * 0.3 + g * 0.59 + b * 0.11;
+
+    //         pixelData[4 * i + 0] = grey;
+    //         pixelData[4 * i + 1] = grey;
+    //         pixelData[4 * i + 2] = grey;
+    //     }
+    //     context_b.putImageData(imageData, 0, 0, 0, 0, canvas_b.width, canvas_b.height);
+    // }
+    //黑白滤镜
+    // btn.onclick = function() {
+    //     imageData = context_a.getImageData(0, 0, canvas_a.width, canvas_a.height);
+    //     var pixelData = imageData.data;
+    //     for (let i = 0; i < canvas_b.width * canvas_b.height; i++) {
+    //         let r = pixelData[4 * i + 0];
+    //         let g = pixelData[4 * i + 1];
+    //         let b = pixelData[4 * i + 2];
+    //         let grey = r * 0.3 + g * 0.59 + b * 0.11;
+    //         if(grey>255/2){
+    //         	grey = 255;
+    //         }else{
+    //         	grey = 0;
+    //         }
+    //         pixelData[4 * i + 0] = grey;
+    //         pixelData[4 * i + 1] = grey;
+    //         pixelData[4 * i + 2] = grey;
+    //     }
+    //     context_b.putImageData(imageData, 0, 0, 0, 0, canvas_b.width, canvas_b.height);
+    // }
+    //反色滤镜
+    // btn.onclick = function() {
+    //     imageData = context_a.getImageData(0, 0, canvas_a.width, canvas_a.height);
+    //     var pixelData = imageData.data;
+    //     for (let i = 0; i < canvas_b.width * canvas_b.height; i++) {
+    //         let r = pixelData[4 * i + 0];
+    //         let g = pixelData[4 * i + 1];
+    //         let b = pixelData[4 * i + 2];
+    //         pixelData[4 * i + 0] = 255- r;
+    //         pixelData[4 * i + 1] = 255- g;
+    //         pixelData[4 * i + 2] = 255- b;
+    //     }
+    //     context_b.putImageData(imageData, 0, 0, 0, 0, canvas_b.width, canvas_b.height);
+    // } 
+    //模糊滤镜
+}
+</script>
+
+</html>

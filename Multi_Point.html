@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+    <style>
+    #box {
+        background-color: pink;
+    }
+    
+    #pic {
+        display: block;
+        margin: 0 auto;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <canvas id="pic" width="500px" height="500px">
+    </div>
+</body>
+<script src="lib/cuon-matrix.js"></script>
+<script src="lib/webgl-utils.js"></script>
+<script src="lib/webgl-debug.js"></script>
+<script src="lib/cuon-utils.js"></script>
+<script>  
+window.onload = (function() {
+    /*    var VSHADER_SOURCE ='void main(){gl_Position = vec4(0.0,0.0,0.0,1.0);gl_PointSize = 23.0;}';
+    	var FSHADER_SOURCE ='void main(){gl_FragColor = vec4(1.0,0.0,0.0,1.0);}';*/
+    var VSHADER_SOURCE = `
+                        attribute vec4 a_Position;
+                        attribute float a_PointSize;
+                        void main(){gl_Position = a_Position;gl_PointSize = a_PointSize;}
+                        `;
+    var FSHADER_SOURCE = `
+                        precision mediump float;
+                        uniform vec4 u_FragColor;
+                        void main(){gl_FragColor = u_FragColor;}
+                        `;
+    var canvas = document.getElementById("pic");
+    // ======================================================================
+    var gl = getWebGLContext(canvas);
+    //初始化着色器
+    initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE); 
+
+    var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+    var a_PointSize = gl.getAttribLocation(gl.program, 'a_PointSize');
+    var u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
+
+
+    var n = initVertexBuffers(gl);
+    //设置画布底色
+    gl.clearColor(0.0, 0.0, 0.0, 1.0); 
+    //清除颜色缓冲区
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.vertexAttrib1f(a_PointSize, 30.0);
+    gl.uniform4f(u_FragColor,0.3,0.8,0.1,1.0);
+    gl.drawArrays(gl.POINTS,0,n);
+
+    function initVertexBuffers(gl){
+        var vertices = new Float32Array([0.0,0.5,-0.5,-0.5,0.5,-0.5]);
+        var n = 3;
+        //创建了缓冲区对象
+        var vertexBuffer = gl.createBuffer();
+        //将缓冲区对象绑定到目标
+        gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer);
+        //向缓冲区对象写入数据
+        gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);
+        //将缓冲区对象分配给a_Position变量
+        gl.vertexAttribPointer(a_Position,2,gl.FLOAT,false,0,0);
+        //连接a_Position变量与分配给它的缓冲区对象
+        gl.enableVertexAttribArray(a_Position);
+        return n;
+    }
+});
+
+</script>
+
+</html>
