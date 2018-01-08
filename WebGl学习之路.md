@@ -11,7 +11,7 @@
 
 ### GLSE中的数据类型 ###
 -  float 浮点数
--  vec4 四个浮点数组成的矢量，四维向量 vec(1.0,0.0,0.0,1.0) 齐次坐标，最后一位为1时，可当三维左边使用
+-  vec4 四个浮点数组成的矢量，四维向量 vec(1.0,0.0,0.0,1.0) 齐次坐标，最后一位为1时，可当三维坐标使用
 
 ### 琐碎的小记: ###
 
@@ -31,6 +31,8 @@
 - 类型化数组创建方式 `new Float32Array`
 - `gl.vertexAttribPointer(location,size,type,normalized,stride,offset)` 将绑定到`gl.ARRAY_BUFFER`的缓冲区对象分配给由location指定的attribute变量
 - `gl.enableVertexAttribArray()` 开启（激活）使缓冲区对attribute变量的分配生效 该函数的处理对象是缓冲区
+- 模型变换（model transformation 建模变换）所用的复合的矩阵称为模型矩阵(model matrix)
+- 动画：不断擦除和重绘图形
 
 ### 缓冲区对象 ###
 1. 创建缓冲区对象 `//var vertexBuffers = gl.createBuffer();`
