@@ -33,6 +33,10 @@
 - `gl.enableVertexAttribArray()` 开启（激活）使缓冲区对attribute变量的分配生效 该函数的处理对象是缓冲区
 - 模型变换（model transformation 建模变换）所用的复合的矩阵称为模型矩阵(model matrix)
 - 动画：不断擦除和重绘图形
+- 3D建模工具会自动生成数据，没必要手动输入数据，或者显式地检查数据的完整性。
+- WebGL允许我们把顶点的坐标和尺寸数据打包到同一个缓冲区对象（例如交错组织interleaving）。
+- varying变量只能是float（vec2，vec3，vec4，mat2，mat3，mat4）
+- 片元着色器接收变量，只需在片元着色器中也声明一个（与顶点着色器的那个varying变量同名）varying变量
 
 ### 缓冲区对象 ###
 1. 创建缓冲区对象 `//var vertexBuffers = gl.createBuffer();`
@@ -51,4 +55,6 @@ gl.drawArrays(mode,first,count)
 - `gl.TRIANGLES` 三角形
 - `gl.TRIANGLE_STRIP` 三角带
 - `gl.TRIANGLE_FAN` 三角扇
+
+
 
